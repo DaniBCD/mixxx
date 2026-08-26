@@ -27,12 +27,18 @@ jobs:
         with:
           arch: x64
 
+      - name: Setup Windows Build Environment
+        shell: cmd
+        run: |
+          call tools\windows_buildenv.bat setup
+
       - name: Configure CMake
         shell: pwsh
         run: |
-          $env:BUILDENV_URL = "https://downloads.mixxx.org/dependencies/2.7/Windows/mixxx-deps-2.7-x64-windows-1c20f84a.zip"
-          $env:BUILDENV_SHA256 = "77b75ab17f06e07b1c140e90f86aafb8658d66d8d581d488ab9b9545996fdc6e"
-          cmake -B build -S .
+          cmake -B build -S . `
+            -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}" `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            -DCMAKE_BUILD_TYPE=Release
 
       - name: Build Mixxx Release
         shell: pwsh
@@ -45,7 +51,7 @@ jobs:
           New-Item -ItemType Directory -Path "dist" -Force
           # Copy Qt plugins and resources to Release folder
           Copy-Item -Path "res\*" -Destination "build\Release\" -Recurse -Force
-          Copy-Item -Path "buildenv\mixxx-deps-2.7-x64-windows-1c20f84a\installed\x64-windows\Qt6\plugins\*" -Destination "build\Release\" -Recurse -Force
+          Copy-Item -Path "${{ env.MIXXX_VCPKG_ROOT }}\installed\x64-windows\Qt6\plugins\*" -Destination "build\Release\" -Recurse -Force
           
           # Compress to zip for easy portable distribution
           Compress-Archive -Path "build\Release\*" -DestinationPath "dist\mixxx-windows-x64-portable.zip" -Force
