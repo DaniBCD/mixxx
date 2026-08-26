@@ -49,10 +49,14 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path "dist" -Force
-          # Copy Qt plugins and resources to Release folder
-          Copy-Item -Path "res\*" -Destination "build\Release\" -Recurse -Force
-          Copy-Item -Path "${{ env.MIXXX_VCPKG_ROOT }}\installed\x64-windows\Qt6\plugins\*" -Destination "build\Release\" -Recurse -Force
+
+          # Copy resources and Qt plugins using robocopy
+          robocopy res build\Release /E /NFL /NDL /NJH /NJS /nc /ns /np
+          robocopy "${{ env.MIXXX_VCPKG_ROOT }}\installed\x64-windows\Qt6\plugins" build\Release /E /NFL /NDL /NJH /NJS /nc /ns /np
           
+          # Reset robocopy success exit codes (0-7 are success)
+          $global:LASTEXITCODE = 0
+
           # Compress to zip for easy portable distribution
           Compress-Archive -Path "build\Release\*" -DestinationPath "dist\mixxx-windows-x64-portable.zip" -Force
 
