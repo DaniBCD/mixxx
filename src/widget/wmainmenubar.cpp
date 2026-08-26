@@ -131,6 +131,20 @@ void WMainMenuBar::initialize() {
 
     pFileMenu->addSeparator();
 
+    QString downloadTitle = tr("&Download from URL (yt-dlp)...");
+    QString downloadText = tr("Download and extract audio from a URL using yt-dlp");
+    auto* pFileDownload = new QAction(downloadTitle, this);
+    m_pKeyboard->registerMenuBarActionSetShortcut(
+            pFileDownload,
+            ConfigKey(kKbdShortcutsGroup, QStringLiteral("FileMenu_DownloadFromUrl")),
+            QStringLiteral("Ctrl+Shift+d"));
+    pFileDownload->setStatusTip(downloadText);
+    pFileDownload->setWhatsThis(buildWhatsThis(downloadTitle, downloadText));
+    connect(pFileDownload, &QAction::triggered, this, &WMainMenuBar::downloadFromUrl);
+    pFileMenu->addAction(pFileDownload);
+
+    pFileMenu->addSeparator();
+
     QString quitTitle = tr("&Exit");
     QString quitText = tr("Quits Mixxx");
     auto* pFileQuit = new QAction(quitTitle, this);

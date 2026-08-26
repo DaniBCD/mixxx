@@ -33,6 +33,13 @@ class TrackCollectionManager;
 class WSearchLineEdit;
 class WLibrarySidebar;
 class WLibrary;
+
+namespace mixxx {
+namespace ytdlp {
+class YtDlpService;
+class YtDlpFeature;
+} // namespace ytdlp
+} // namespace mixxx
 class QAbstractItemModel;
 
 #ifdef __ENGINEPRIME__
@@ -203,8 +210,14 @@ class Library: public QObject {
     parented_ptr<CrateFeature> m_pCrateFeature;
     parented_ptr<BrowseFeature> m_pBrowseFeature;
     parented_ptr<AnalysisFeature> m_pAnalysisFeature;
+    std::shared_ptr<mixxx::ytdlp::YtDlpService> m_pYtDlpService;
+    parented_ptr<mixxx::ytdlp::YtDlpFeature> m_pYtDlpFeature;
     QFont m_trackTableFont;
     int m_iTrackTableRowHeight;
     bool m_editMetadataSelectedClick;
     std::unique_ptr<ControlObject> m_pKeyNotation;
+  public:
+    std::shared_ptr<mixxx::ytdlp::YtDlpService> ytDlpService() const {
+        return m_pYtDlpService;
+    }
 };

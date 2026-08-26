@@ -44,6 +44,7 @@
 #include "preferences/dialog/dlgprefkey.h"
 #include "preferences/dialog/dlgprefrecord.h"
 #include "preferences/dialog/dlgprefreplaygain.h"
+#include "preferences/dialog/dlgprefytdlp.h"
 
 #ifdef __MODPLUG__
 #include "preferences/dialog/dlgprefmodplug.h"
@@ -247,6 +248,12 @@ DlgPreferences::DlgPreferences(
             tr("Modplug Decoder"),
             "ic_preferences_modplug.svg");
 #endif // __MODPLUG__
+
+    addPageWidget(PreferencesPage(
+                          new DlgPrefYtDlp(this, m_pConfig),
+                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+            tr("yt-dlp Downloads"),
+            "ic_preferences_library.svg");
 
     // Find accept and apply buttons
     const auto buttons = buttonBox->buttons();

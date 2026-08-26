@@ -60,6 +60,7 @@ class MixxxMainWindow : public QMainWindow {
     void rebootMixxxView();
 
     void slotFileLoadSongPlayer(int deck);
+    void slotFileDownloadFromUrl();
     /// show the preferences dialog
     void slotOptionsPreferences();
     /// show the about dialog

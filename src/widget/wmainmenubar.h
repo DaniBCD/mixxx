@@ -64,6 +64,7 @@ class WMainMenuBar : public QMenuBar {
     void createCrate();
     void createPlaylist();
     void loadTrackToDeck(int deck);
+    void downloadFromUrl();
     void reloadSkin();
     void rescanLibrary();
 #ifdef __ENGINEPRIME__

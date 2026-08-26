@@ -255,6 +255,20 @@ bool DragAndDropHelper::dragEnterAccept(
         const QString& sourceIdentifier,
         bool stopOnFirstMatch,
         bool acceptPlaylists) {
+    if (mimeData.hasUrls()) {
+        for (const auto& url : mimeData.urls()) {
+            QString scheme = url.scheme().toLower();
+            if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
+                return true;
+            }
+        }
+    } else if (mimeData.hasText()) {
+        QString text = mimeData.text().trimmed();
+        if (text.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) ||
+                text.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) {
+            return true;
+        }
+    }
     // TODO(XXX): This operation blocks the UI when many
     // files are selected!
     const auto files = dropEventFiles(
@@ -310,6 +324,25 @@ void DragAndDropHelper::handleTrackDropEvent(
             target.emitCloneDeck(pEvent->mimeData()->text(), group);
             return;
         } else {
+            if (pEvent->mimeData()->hasUrls()) {
+                for (const auto& url : pEvent->mimeData()->urls()) {
+                    QString scheme = url.scheme().toLower();
+                    if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
+                        pEvent->accept();
+                        target.emitTrackDropped(url.toString(), group);
+                        return;
+                    }
+                }
+            } else if (pEvent->mimeData()->hasText()) {
+                QString text = pEvent->mimeData()->text().trimmed();
+                if (text.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) ||
+                        text.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) {
+                    pEvent->accept();
+                    target.emitTrackDropped(text, group);
+                    return;
+                }
+            }
+
             const QList<mixxx::FileInfo> files = dropEventFiles(
                     *pEvent->mimeData(), group, true, false);
             if (!files.isEmpty()) {

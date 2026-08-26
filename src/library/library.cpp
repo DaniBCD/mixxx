@@ -31,6 +31,8 @@
 #include "library/trackset/playlistfeature.h"
 #include "library/trackset/setlogfeature.h"
 #include "library/traktor/traktorfeature.h"
+#include "library/ytdlp/ytdlpfeature.h"
+#include "library/ytdlp/ytdlpservice.h"
 #include "mixer/playermanager.h"
 #include "moc_library.cpp"
 #include "util/assert.h"
@@ -176,6 +178,23 @@ Library::Library(
             &AnalysisFeature::trackProgress,
             this,
             &Library::onTrackAnalyzerProgress);
+
+    m_pYtDlpService = std::make_shared<mixxx::ytdlp::YtDlpService>(
+            m_pConfig, m_pTrackCollectionManager, this);
+    connect(m_pYtDlpService.get(),
+            &mixxx::ytdlp::YtDlpService::loadTrackToPlayer,
+            this,
+            [this](TrackPointer pTrack, const QString& group, bool play) {
+#ifdef __STEM__
+                emit loadTrackToPlayer(pTrack, group, mixxx::StemChannelSelection(), play);
+#else
+                emit loadTrackToPlayer(pTrack, group, play);
+#endif
+            });
+
+    m_pYtDlpFeature = make_parented<mixxx::ytdlp::YtDlpFeature>(
+            this, m_pConfig, m_pYtDlpService.get());
+    addFeature(m_pYtDlpFeature);
 
     // iTunes and Rhythmbox should be last until we no longer have an obnoxious
     // messagebox popup when you select them. (This forces you to reach for your
@@ -573,6 +592,13 @@ void Library::slotLoadTrack(TrackPointer pTrack) {
 }
 
 void Library::slotLoadLocationToPlayer(const QString& location, const QString& group, bool play) {
+    if (location.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) ||
+            location.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) {
+        if (m_pYtDlpService) {
+            m_pYtDlpService->startDownload(QUrl(location), group);
+        }
+        return;
+    }
     auto trackRef = TrackRef::fromFilePath(location);
     TrackPointer pTrack = m_pTrackCollectionManager->getOrAddTrack(trackRef);
     if (pTrack) {

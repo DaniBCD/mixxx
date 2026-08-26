@@ -43,6 +43,7 @@
 #endif
 #include "library/library_prefs.h"
 #include "library/trackcollectionmanager.h"
+#include "library/ytdlp/dlgdownloadurl.h"
 #include "mixer/playerinfo.h"
 #include "mixer/playermanager.h"
 #include "recording/recordingmanager.h"
@@ -861,6 +862,11 @@ void MixxxMainWindow::connectMenuBar() {
             this,
             &MixxxMainWindow::slotFileLoadSongPlayer,
             Qt::UniqueConnection);
+    connect(m_pMenuBar,
+            &WMainMenuBar::downloadFromUrl,
+            this,
+            &MixxxMainWindow::slotFileDownloadFromUrl,
+            Qt::UniqueConnection);
 
     connect(m_pMenuBar,
             &WMainMenuBar::showKeywheel,
@@ -1085,6 +1091,15 @@ void MixxxMainWindow::slotFileLoadSongPlayer(int deck) {
         Sandbox::createSecurityToken(&fileInfo);
 
         m_pCoreServices->getPlayerManager()->slotLoadToDeck(trackPath, deck);
+    }
+}
+
+void MixxxMainWindow::slotFileDownloadFromUrl() {
+    if (m_pCoreServices && m_pCoreServices->getLibrary() &&
+            m_pCoreServices->getLibrary()->ytDlpService()) {
+        mixxx::ytdlp::DlgDownloadUrl dlg(
+                m_pCoreServices->getLibrary()->ytDlpService().get(), this);
+        dlg.exec();
     }
 }
 

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DlgPrefYtDlp</class>
+ <widget class="QWidget" name="DlgPrefYtDlp">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>yt-dlp Preferences</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupExecutable">
+     <property name="title">
+      <string>yt-dlp Executable</string>
+     </property>
+     <layout class="QGridLayout" name="gridExecutable">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelPath">
+        <property name="text">
+         <string>Binary Path:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEditPath">
+        <property name="placeholderText">
+         <string>Auto-detect from PATH (leave blank for default)</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="btnBrowseExecutable">
+        <property name="text">
+         <string>Browse...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="labelVersionStatus">
+        <property name="text">
+         <string>Status: Not tested</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="btnTestExecutable">
+        <property name="text">
+         <string>Test / Detect</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupDownloads">
+     <property name="title">
+      <string>Download Settings</string>
+     </property>
+     <layout class="QGridLayout" name="gridDownloads">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelDownloadDir">
+        <property name="text">
+         <string>Download Directory:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEditDownloadDir">
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="btnBrowseDownloadDir">
+        <property name="text">
+         <string>Browse...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelFormat">
+        <property name="text">
+         <string>Default Audio Format:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboFormat"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelCookies">
+        <property name="text">
+         <string>Cookies from Browser:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEditCookies">
+        <property name="placeholderText">
+         <string>e.g. chrome, firefox, edge, brave (leave empty if not needed)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="checkEmbedMetadata">
+        <property name="text">
+         <string>Embed metadata (Artist, Title, Tags)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="checkEmbedThumbnail">
+        <property name="text">
+         <string>Embed thumbnail / cover art</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="checkAutoAnalyze">
+        <property name="text">
+         <string>Automatically analyze BPM and Key on download completion</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

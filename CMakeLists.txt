@@ -1489,6 +1489,11 @@ add_library(
   src/library/traktor/traktorfeature.cpp
   src/library/treeitem.cpp
   src/library/treeitemmodel.cpp
+  src/library/ytdlp/dlgdownloadurl.cpp
+  src/library/ytdlp/dlgdownloadurl.ui
+  src/library/ytdlp/ytdlpfeature.cpp
+  src/library/ytdlp/ytdlpservice.cpp
+  src/library/ytdlp/ytdlpsettings.cpp
   src/mixer/auxiliary.cpp
   src/mixer/baseplayer.cpp
   src/mixer/basetrackplayer.cpp
@@ -1548,6 +1553,8 @@ add_library(
   src/preferences/dialog/dlgprefrecorddlg.ui
   src/preferences/dialog/dlgprefreplaygain.cpp
   src/preferences/dialog/dlgprefreplaygaindlg.ui
+  src/preferences/dialog/dlgprefytdlp.cpp
+  src/preferences/dialog/dlgprefytdlp.ui
   src/preferences/dialog/dlgprefsound.cpp
   src/preferences/dialog/dlgprefsounddlg.ui
   src/preferences/dialog/dlgprefsounditem.cpp
@@ -5645,12 +5652,12 @@ if(WIN32)
   set(CPACK_WIX_INSTALL_SCOPE "perMachine")
   file(
     GENERATE OUTPUT
-    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch.xml"
+    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch-$<CONFIG>.xml"
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/packaging/wix/MixxxUpgradePatch.xml.in"
   )
   set(
     CPACK_WIX_PATCH_FILE
-    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch.xml"
+    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch-$<CONFIG>.xml"
   )
 
   # uses CMAKE_PROJECT_VERSION
