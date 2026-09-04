@@ -76,7 +76,26 @@ QtObject {
     readonly property url assetDeckVinylControl3: lateNightAsset("style", "vinyl_control_3.svg")
     readonly property url assetDeckVolumeSliderBackground: lateNightAsset("sliders", "slider_volume_deck.svg")
     readonly property url assetDeckVolumeSliderHandle: lateNightAsset("sliders", "knob_volume_deck.svg")
+    readonly property url assetFxCollapseButton: lateNightAsset("buttons", isClassic ? "btn__collapse.svg" : "btn__collapse_dim.svg")
+    readonly property url assetFxExpandButton: lateNightAsset("buttons", isClassic ? "btn__expand.svg" : "btn__expand_dim.svg")
+    readonly property url assetFxFlowHorizontal: lateNightAsset("style", isClassic ? "fx_separator.svg" : "fx_flow_horizontal.svg")
+    readonly property url assetFxFlowVertical: lateNightAsset("style", isClassic ? "fx_separator.svg" : "fx_flow_vertical.svg")
+    readonly property url assetFxFocusActiveButton: lateNightAsset("buttons", "btn__fx_focus_active.svg")
+    readonly property url assetFxFocusButton: lateNightAsset("buttons", "btn__fx_focus.svg")
     readonly property url assetFxKnobBackground: lateNightAsset("knobs", "knob_bg_fx.svg")
+    readonly property url assetFxMixModeButton: lateNightAsset("buttons", "btn_embedded_mixmode.svg")
+    readonly property url assetFxMixModeDryWetButton: lateNightAsset("buttons", "btn__fx_mixmode_d-w.svg")
+    readonly property url assetFxMixModeDryWetSumButton: lateNightAsset("buttons", "btn__fx_mixmode_d+w.svg")
+    readonly property url assetFxParameterActiveButton: lateNightAsset("buttons", "btn_embedded_fx_parameter_active.svg")
+    readonly property url assetFxParameterButton: lateNightAsset("buttons", "btn_embedded_fx_parameter.svg")
+    readonly property url assetFxSelectorActiveBorder: lateNightAsset("buttons", "btn_embedded_library_active.svg")
+    readonly property url assetFxSelectorBorder: lateNightAsset("buttons", "btn_embedded_library.svg")
+    readonly property url assetFxSelectorDownButton: lateNightAsset("buttons", "btn__fx_selector_down.svg")
+    readonly property url assetFxSettingsButton: lateNightAsset("buttons", "btn__fx_settings.svg")
+    readonly property url assetFxSlotButtonActiveBackground: lateNightAsset("buttons", "btn_embedded_square_active.svg")
+    readonly property url assetFxSlotButtonBackground: lateNightAsset("buttons", "btn_embedded_square.svg")
+    readonly property url assetFxToggleActiveButton: lateNightAsset("buttons", "btn__fx_toggle_active.svg")
+    readonly property url assetFxToggleButton: lateNightAsset("buttons", "btn__fx_toggle.svg")
     readonly property url assetMainKnobBackground: lateNightAsset("knobs", "knob_bg_main.svg")
     readonly property url assetMixerCrossfaderBackground: lateNightAsset("sliders", "slider_crossfader.svg")
     readonly property url assetMixerCrossfaderHandle: lateNightAsset("sliders", "knob_crossfader.svg")
@@ -95,6 +114,20 @@ QtObject {
     readonly property url assetMixerVolumeSliderBackground: lateNightAsset("sliders", "slider_volume_deck.svg")
     readonly property url assetMixerVolumeSliderHandle: lateNightAsset("sliders", "knob_volume_deck.svg")
     readonly property url assetRegularKnobBackground: lateNightAsset("knobs", "knob_bg_regular.svg")
+    readonly property url assetSamplerCollapseButton: lateNightAsset("buttons", "btn__collapse_dim.svg")
+    readonly property url assetSamplerExpandButton: lateNightAsset("buttons", "btn__expand_dim.svg")
+    readonly property url assetSamplerPauseButton: lateNightAsset("buttons", "btn__pause_sampler.svg")
+    readonly property url assetSamplerPitchSliderBackground: lateNightAsset("sliders", "slider_pitch_sampler.svg")
+    readonly property url assetSamplerPitchSliderHandle: lateNightAsset("sliders", "knob_pitch_sampler.svg")
+    readonly property url assetSamplerPlayButton: lateNightAsset("buttons", "btn__play_sampler.svg")
+    readonly property url assetSamplerSyncButton: lateNightAsset("buttons", "btn__sync_sampler.svg")
+    readonly property url assetSamplerVuClippingActive: lateNightAsset("style", "vu_sampler_clipping_active.png")
+    readonly property url assetSamplerVuClippingBackground: lateNightAsset("style", "vu_sampler_clipping_bg_.png")
+    readonly property url assetSamplerVuLevelActive: lateNightAsset("style", "vu_sampler_level_active.png")
+    readonly property url assetSamplerVuLevelBackground: lateNightAsset("style", "vu_sampler_level_bg_.png")
+    readonly property url assetSamplerXfaderLeft: lateNightAsset("buttons", "btn__xfader_sampler_left.svg")
+    readonly property url assetSamplerXfaderMain: lateNightAsset("buttons", "btn__xfader_sampler_main.svg")
+    readonly property url assetSamplerXfaderRight: lateNightAsset("buttons", "btn__xfader_sampler_right.svg")
     readonly property url assetSmallKnobBackground: lateNightAsset("knobs", "knob_bg_small.svg")
     readonly property url assetToolbarDropdownIcon: lateNightAsset("buttons", "btn__fx_selector_down.svg")
     readonly property url assetToolbarMenuIcon: lateNightAsset("buttons", "btn__menu.svg")
@@ -122,6 +155,32 @@ QtObject {
     readonly property color deckReadonlyTextColor: isClassic ? "#888888" : "#777777"
     readonly property color deckTimeTextColor: isClassic ? "#f0bb2b" : "#777777"
     readonly property color deckTopRowBackgroundColor: "#181818"
+    readonly property color effectsAssignmentActiveTextColor: isClassic ? "#000000" : "#a7998b"
+    readonly property color effectsAssignmentInactiveColor: isClassic ? "#262626" : "#151517"
+    readonly property color effectsAssignmentInactiveTextColor: isClassic ? "#d2d2d1" : "#555555"
+    readonly property color effectsControlActiveColor: "#888888"
+    readonly property color effectsControlInactiveColor: "#262626"
+    readonly property color effectsControllerColor12: isClassic ? "#73b508" : "#518f00"
+    readonly property color effectsControllerColor34: isClassic ? "#0795b5" : "#028392"
+    readonly property color effectsFillerColor: isClassic ? "#171717" : "#151517"
+    readonly property color effectsFocusBorderColor: isClassic ? "#d08e00" : "#257b82"
+    readonly property color effectsHeaderColor: isClassic ? "#1e1e1e" : "#151517"
+    readonly property color effectsMasterButtonInactiveColor: isClassic ? "#262626" : "#1e1e20"
+    readonly property color effectsPanelColor: isClassic ? "#1e1e1e" : "#1e1e20"
+    readonly property color effectsParameterActiveColor: "#888888"
+    readonly property color effectsParameterArcColor: "#6d6d6d"
+    readonly property color effectsParameterInactiveColor: isClassic ? "#333333" : "#2a2a2c"
+    readonly property string effectsParameterIndicatorColor: isClassic ? "white" : "grey"
+    readonly property color effectsParameterInverseActiveColor: "#9c0900"
+    readonly property color effectsParameterLinkInactiveColor: isClassic ? "#4b4b4b" : "#333333"
+    readonly property color effectsParameterPanelColor: isClassic ? "#151515" : "#1e1e20"
+    readonly property color effectsParameterTextColor: "#666666"
+    readonly property color effectsRackGutterColor: "#060606"
+    readonly property color effectsSlotToggleInactiveColor: isClassic ? "#262626" : "#121213"
+    readonly property color effectsUnitColor12: isClassic ? "#659f08" : "#438225"
+    readonly property color effectsUnitColor34: isClassic ? "#0895bc" : "#257b82"
+    readonly property color effectsUnitDimColor12: isClassic ? "#426b00" : "#236b00"
+    readonly property color effectsUnitDimColor34: isClassic ? "#00696b" : "#146674"
     readonly property bool isClassic: ColorScheme.name === "classic"
     readonly property bool isPaleMoon: ColorScheme.name === "palemoon"
     readonly property color keyControlsPressedColor: isPaleMoon ? "#7d350d" : "#db0000"
@@ -184,6 +243,34 @@ QtObject {
     readonly property color primaryDeckTextColor: isClassic ? "#f0bb2b" : "#c2b3a5"
     readonly property color primaryOverviewBackgroundColor: isClassic ? "#0f0f0f" : "#19191a"
     readonly property color primaryWaveformSignalColor: isClassic ? "#e7c413" : "#d9b28c"
+    readonly property color samplerBpmColor: isClassic ? "#f0bb2b" : "#766b65"
+    readonly property color samplerBpmSeparatorLightColor: "#292929"
+    readonly property color samplerColor: accentColor
+    readonly property color samplerEffectAssignment12ActiveColor: isClassic ? "#659f08" : "#236b00"
+    readonly property color samplerEffectAssignment34ActiveColor: isClassic ? "#0895bc" : "#146674"
+    readonly property color samplerEffectAssignmentInactiveTextColor: isClassic ? "#696969" : "#666666"
+    readonly property color samplerExpanderBottomBorderColor: isClassic ? "#111111" : "#020202"
+    readonly property color samplerExpanderColor: isClassic ? "#171717" : "#151517"
+    readonly property color samplerExpanderLeftBorderColor: isClassic ? "#222222" : "#191919"
+    readonly property color samplerExpanderRightBorderColor: "#111111"
+    readonly property color samplerExpanderTopBorderColor: isClassic ? "#222222" : "#212123"
+    readonly property color samplerGainArcColor: isClassic ? "#db7700" : "#8d3b11"
+    readonly property color samplerGainColor: isClassic ? "#db7700" : "#b24c12"
+    readonly property color samplerOverviewBackgroundColor: isClassic ? "#151515" : "#19191a"
+    readonly property color samplerOverviewBackgroundLoadedColor: isClassic ? "#080808" : "#151515"
+    readonly property color samplerOverviewBorderBottomColor: isClassic ? "#333333" : "#2a2a2a"
+    readonly property color samplerOverviewBorderLeftColor: isClassic ? "#0a0a0a" : "#121212"
+    readonly property color samplerOverviewBorderRightColor: isClassic ? "#333333" : "#252525"
+    readonly property color samplerOverviewBorderTopColor: isClassic ? "#0a0a0a" : "#0d0d0d"
+    readonly property color samplerPanelColor: isClassic ? "#1e1e1e" : "#1e1e20"
+    readonly property color samplerPflActiveColor: isClassic ? "#db0000" : "#666666"
+    readonly property color samplerPitchSliderBarColor: "#888888"
+    readonly property color samplerSettingsBorderBottomColor: isClassic ? "#0c0c0c" : "#2a2a2a"
+    readonly property color samplerSettingsBorderTopColor: isClassic ? "#0c0c0c" : "#080808"
+    readonly property color samplerTitleColor: isClassic ? "#d2d2d1" : "#c2b3a5"
+    readonly property color samplerWaveformFilteredHighColor: isClassic ? "#f3f16f" : "#a17b35"
+    readonly property color samplerWaveformFilteredLowColor: isClassic ? "#e7c413" : "#d9b28c"
+    readonly property color samplerWaveformFilteredMidColor: isClassic ? "#edaf27" : "#d09271"
     readonly property color secondaryDeckTextColor: isClassic ? "#0bd9d1" : "#85bdbb"
     readonly property color secondaryOverviewBackgroundColor: "#001b23"
     readonly property color secondaryWaveformSignalColor: isClassic ? "#09b2ae" : "#7bc6c3"
