@@ -12,6 +12,7 @@
 #include "library/dao/trackdao.h"
 #include "library/trackcollection.h"
 #include "moc_stemseparationservice.cpp"
+#include "track/track.h"
 #include "track/trackref.h"
 #include "util/logger.h"
 
