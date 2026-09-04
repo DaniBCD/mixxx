@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DlgPrefStems</class>
+ <widget class="QWidget" name="DlgPrefStems">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Separación de Stems por IA</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QGroupBox" name="groupStatus">
+     <property name="title">
+      <string>Estado del Motor de IA (Demucs &amp; FFmpeg)</string>
+     </property>
+     <layout class="QVBoxLayout" name="statusLayout">
+      <item>
+       <widget class="QLabel" name="labelEnvStatus">
+        <property name="text">
+         <string>Comprobando componentes del sistema...</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="installLayout">
+        <item>
+         <widget class="QPushButton" name="btnInstallEnv">
+          <property name="text">
+           <string>Instalar / Actualizar Entorno de IA (Un Clic)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnCheckStatus">
+          <property name="text">
+           <string>Volver a Comprobar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacerInstall">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="progressInstall">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelInstallStatus">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupOptions">
+     <property name="title">
+      <string>Opciones de Procesamiento</string>
+     </property>
+     <layout class="QGridLayout" name="optionsGrid">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelDevice">
+        <property name="text">
+         <string>Dispositivo de Aceleración:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboDevice"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelModel">
+        <property name="text">
+         <string>Modelo de Demucs:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="comboModel"/>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkAutoLoad">
+        <property name="text">
+         <string>Cargar automáticamente el archivo .stem.mp4 a la pletina al finalizar</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupStorage">
+     <property name="title">
+      <string>Ubicación de Archivos Generados</string>
+     </property>
+     <layout class="QVBoxLayout" name="storageLayout">
+      <item>
+       <widget class="QRadioButton" name="radioSameDir">
+        <property name="text">
+         <string>Guardar en la misma carpeta que la pista original (ej. Cancion.stem.mp4)</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioCustomDir">
+        <property name="text">
+         <string>Guardar en una carpeta centralizada:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="dirLayout">
+        <item>
+         <widget class="QLineEdit" name="lineEditCustomDir">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnBrowseDir">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Examinar...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupAdvanced">
+     <property name="title">
+      <string>Rutas Personalizadas (Avanzado)</string>
+     </property>
+     <layout class="QGridLayout" name="advancedGrid">
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelPython">
+        <property name="text">
+         <string>Python Ejecutable:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEditPython">
+        <property name="placeholderText">
+         <string>Dejar en blanco para autodetección</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="btnBrowsePython">
+        <property name="text">
+         <string>Examinar...</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelFfmpeg">
+        <property name="text">
+         <string>FFmpeg Ejecutable:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEditFfmpeg">
+        <property name="placeholderText">
+         <string>Dejar en blanco para autodetección</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="btnBrowseFfmpeg">
+        <property name="text">
+         <string>Examinar...</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

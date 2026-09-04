@@ -200,6 +200,10 @@ class WTrackMenu : public QMenu {
     void slotUnhide();
     void slotPurge();
 
+    // AI Stem Separation
+    void slotSeparateStemsVocalsInst();
+    void slotSeparateStems4Stems();
+
   private:
     void closeEvent(QCloseEvent* event) override;
     // This getter verifies that m_pTrackModel is set when
@@ -378,6 +382,11 @@ class WTrackMenu : public QMenu {
     parented_ptr<QAction> m_pClearAllMetadataAction;
     parented_ptr<QAction> m_pSortHotcuesByPositionAction{};
     parented_ptr<QAction> m_pSortHotcuesByPositionCompressAction{};
+
+    // Stem separation menu
+    parented_ptr<QMenu> m_pStemSeparationMenu;
+    parented_ptr<QAction> m_pSeparateVocalsInstAct;
+    parented_ptr<QAction> m_pSeparate4StemsAct;
 
     const UserSettingsPointer m_pConfig;
     Library* const m_pLibrary;

@@ -45,6 +45,7 @@
 #include "preferences/dialog/dlgprefrecord.h"
 #include "preferences/dialog/dlgprefreplaygain.h"
 #include "preferences/dialog/dlgprefytdlp.h"
+#include "preferences/dialog/dlgprefstems.h"
 
 #ifdef __MODPLUG__
 #include "preferences/dialog/dlgprefmodplug.h"
@@ -253,6 +254,12 @@ DlgPreferences::DlgPreferences(
                           new DlgPrefYtDlp(this, m_pConfig),
                           new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
             tr("yt-dlp Downloads"),
+            "ic_preferences_library.svg");
+
+    addPageWidget(PreferencesPage(
+                          new DlgPrefStems(this, m_pConfig),
+                          new QTreeWidgetItem(contentsTreeWidget, QTreeWidgetItem::Type)),
+            tr("Stems (IA)"),
             "ic_preferences_library.svg");
 
     // Find accept and apply buttons

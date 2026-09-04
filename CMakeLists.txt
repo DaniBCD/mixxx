@@ -1489,6 +1489,11 @@ add_library(
   src/library/traktor/traktorfeature.cpp
   src/library/treeitem.cpp
   src/library/treeitemmodel.cpp
+  src/library/stems/dlgstemprogress.cpp
+  src/library/stems/dlgstemprogress.ui
+  src/library/stems/stemenvironmentmanager.cpp
+  src/library/stems/stemseparationservice.cpp
+  src/library/stems/stemsettings.cpp
   src/library/ytdlp/dlgdownloadurl.cpp
   src/library/ytdlp/dlgdownloadurl.ui
   src/library/ytdlp/ytdlpfeature.cpp
@@ -1553,6 +1558,8 @@ add_library(
   src/preferences/dialog/dlgprefrecorddlg.ui
   src/preferences/dialog/dlgprefreplaygain.cpp
   src/preferences/dialog/dlgprefreplaygaindlg.ui
+  src/preferences/dialog/dlgprefstems.cpp
+  src/preferences/dialog/dlgprefstems.ui
   src/preferences/dialog/dlgprefytdlp.cpp
   src/preferences/dialog/dlgprefytdlp.ui
   src/preferences/dialog/dlgprefsound.cpp

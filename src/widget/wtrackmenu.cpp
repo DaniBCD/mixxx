@@ -20,6 +20,8 @@
 #include "library/dlgtrackmetadataexport.h"
 #include "library/externaltrackcollection.h"
 #include "library/library.h"
+#include "library/stems/dlgstemprogress.h"
+#include "library/stems/stemseparationservice.h"
 #include "library/trackcollection.h"
 #include "library/trackcollectionmanager.h"
 #include "library/trackmodel.h"
@@ -303,6 +305,9 @@ void WTrackMenu::createMenus() {
         m_pRemoveFromDiskMenu->setTitle(tr("Delete Track Files"));
 #endif
     }
+
+    m_pStemSeparationMenu = make_parented<QMenu>(this);
+    m_pStemSeparationMenu->setTitle(tr("Separar Stems (IA)"));
 }
 
 void WTrackMenu::createActions() {
@@ -617,6 +622,23 @@ void WTrackMenu::createActions() {
                 this,
                 &WTrackMenu::slotColorPicked);
     }
+
+    m_pSeparateVocalsInstAct = make_parented<QAction>(
+            tr("Voz e Instrumental (2 stems)..."), m_pStemSeparationMenu);
+    connect(m_pSeparateVocalsInstAct,
+            &QAction::triggered,
+            this,
+            &WTrackMenu::slotSeparateStemsVocalsInst);
+
+    m_pSeparate4StemsAct = make_parented<QAction>(
+            tr("4 Stems completos (Voz, Batería, Bajo, Otros)..."), m_pStemSeparationMenu);
+    connect(m_pSeparate4StemsAct,
+            &QAction::triggered,
+            this,
+            &WTrackMenu::slotSeparateStems4Stems);
+
+    m_pStemSeparationMenu->addAction(m_pSeparateVocalsInstAct);
+    m_pStemSeparationMenu->addAction(m_pSeparate4StemsAct);
 }
 
 void WTrackMenu::setupActions() {
@@ -806,6 +828,11 @@ void WTrackMenu::setupActions() {
     if (featureIsEnabled(Feature::Properties)) {
         addSeparator();
         addAction(m_pPropertiesAct);
+    }
+
+    if (m_pStemSeparationMenu) {
+        addSeparator();
+        addMenu(m_pStemSeparationMenu);
     }
 }
 
@@ -1266,6 +1293,10 @@ void WTrackMenu::updateMenus() {
                     *pTrack);
         }
         m_pFindOnWebMenu->setEnabled(!m_pFindOnWebMenu->isEmpty());
+    }
+
+    if (m_pStemSeparationMenu) {
+        m_pStemSeparationMenu->setEnabled(singleTrackSelected);
     }
 }
 
@@ -3043,3 +3074,42 @@ bool WTrackMenu::featureIsEnabled(Feature flag) const {
         return false;
     }
 }
+
+void WTrackMenu::slotSeparateStemsVocalsInst() {
+    TrackPointer pTrack = getFirstTrackPointer();
+    if (!pTrack || !m_pLibrary) {
+        return;
+    }
+    auto pService = m_pLibrary->stemSeparationService();
+    if (!pService) {
+        return;
+    }
+    QString jobId = pService->startSeparation(
+            pTrack,
+            mixxx::stems::SeparationMode::TwoStems_Vocals_Instrumental,
+            m_deckGroup);
+    if (!jobId.isEmpty()) {
+        auto* pDlg = new mixxx::stems::DlgStemProgress(pService.get(), jobId, this);
+        pDlg->show();
+    }
+}
+
+void WTrackMenu::slotSeparateStems4Stems() {
+    TrackPointer pTrack = getFirstTrackPointer();
+    if (!pTrack || !m_pLibrary) {
+        return;
+    }
+    auto pService = m_pLibrary->stemSeparationService();
+    if (!pService) {
+        return;
+    }
+    QString jobId = pService->startSeparation(
+            pTrack,
+            mixxx::stems::SeparationMode::FourStems_Complete,
+            m_deckGroup);
+    if (!jobId.isEmpty()) {
+        auto* pDlg = new mixxx::stems::DlgStemProgress(pService.get(), jobId, this);
+        pDlg->show();
+    }
+}
+

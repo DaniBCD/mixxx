@@ -35,6 +35,9 @@ class WLibrarySidebar;
 class WLibrary;
 
 namespace mixxx {
+namespace stems {
+class StemSeparationService;
+} // namespace stems
 namespace ytdlp {
 class YtDlpService;
 class YtDlpFeature;
@@ -211,6 +214,7 @@ class Library: public QObject {
     parented_ptr<BrowseFeature> m_pBrowseFeature;
     parented_ptr<AnalysisFeature> m_pAnalysisFeature;
     std::shared_ptr<mixxx::ytdlp::YtDlpService> m_pYtDlpService;
+    std::shared_ptr<mixxx::stems::StemSeparationService> m_pStemSeparationService;
     parented_ptr<mixxx::ytdlp::YtDlpFeature> m_pYtDlpFeature;
     QFont m_trackTableFont;
     int m_iTrackTableRowHeight;
@@ -219,5 +223,8 @@ class Library: public QObject {
   public:
     std::shared_ptr<mixxx::ytdlp::YtDlpService> ytDlpService() const {
         return m_pYtDlpService;
+    }
+    std::shared_ptr<mixxx::stems::StemSeparationService> stemSeparationService() const {
+        return m_pStemSeparationService;
     }
 };

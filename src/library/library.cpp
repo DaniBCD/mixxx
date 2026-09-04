@@ -31,6 +31,7 @@
 #include "library/trackset/playlistfeature.h"
 #include "library/trackset/setlogfeature.h"
 #include "library/traktor/traktorfeature.h"
+#include "library/stems/stemseparationservice.h"
 #include "library/ytdlp/ytdlpfeature.h"
 #include "library/ytdlp/ytdlpservice.h"
 #include "mixer/playermanager.h"
@@ -183,6 +184,19 @@ Library::Library(
             m_pConfig, m_pTrackCollectionManager, this);
     connect(m_pYtDlpService.get(),
             &mixxx::ytdlp::YtDlpService::loadTrackToPlayer,
+            this,
+            [this](TrackPointer pTrack, const QString& group, bool play) {
+#ifdef __STEM__
+                emit loadTrackToPlayer(pTrack, group, mixxx::StemChannelSelection(), play);
+#else
+                emit loadTrackToPlayer(pTrack, group, play);
+#endif
+            });
+
+    m_pStemSeparationService = std::make_shared<mixxx::stems::StemSeparationService>(
+            m_pConfig, m_pTrackCollectionManager, this);
+    connect(m_pStemSeparationService.get(),
+            &mixxx::stems::StemSeparationService::loadTrackToPlayer,
             this,
             [this](TrackPointer pTrack, const QString& group, bool play) {
 #ifdef __STEM__
