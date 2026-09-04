@@ -3032,7 +3032,11 @@ if(BUILD_TESTING)
     )
   endif()
 
-  add_executable(mixxx-test ${src-mixxx-test})
+  if(QT6 AND QML)
+    qt_add_executable(mixxx-test ${src-mixxx-test} MANUAL_FINALIZATION)
+  else()
+    add_executable(mixxx-test ${src-mixxx-test})
+  endif()
   target_compile_definitions(
     mixxx-test
     PUBLIC RESOURCE_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}/res"
@@ -3051,6 +3055,7 @@ if(BUILD_TESTING)
       PRIVATE
         src/test/controller_mapping_file_handler_test.cpp
         src/test/controllerrenderingengine_test.cpp
+        src/test/qml/qmlstartupsmoketest.cpp
         src/test/qmlcontrolproxytest.cpp
         src/test/qmldurationformattertest.cpp
         src/test/qmleffectsproxytest.cpp
@@ -3109,6 +3114,7 @@ if(BUILD_TESTING)
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     TEST_LIST testsuite
     DISCOVERY_MODE PRE_TEST
+    DISCOVERY_TIMEOUT 60
   )
 
   if(BUILD_BENCH)
@@ -4010,6 +4016,7 @@ if(QML)
     PRIVATE
       src/qml/asyncimageprovider.cpp
       src/qml/qmlapplication.cpp
+      src/qml/qmlapplicationproxy.cpp
       src/qml/qmlautoreload.cpp
       src/qml/qmlbatteryproxy.cpp
       src/qml/qmlbeatsmodel.cpp
@@ -4414,6 +4421,13 @@ else()
         COMPONENT applocal
       )
 
+      install(
+        DIRECTORY
+          "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}$<$<CONFIG:Debug>:/debug>/Qt6/qml/QtCore"
+        DESTINATION "${MIXXX_INSTALL_DATADIR}/Qt6/qml"
+        COMPONENT applocal
+      )
+
       # install qml6-module-qtquick-controls
       install(
         DIRECTORY
@@ -4600,6 +4614,9 @@ elseif(UNIX AND NOT APPLE AND NOT EMSCRIPTEN AND NOT ANDROID)
   endif()
   find_package(Qt${QT_VERSION_MAJOR} COMPONENTS DBus REQUIRED)
   target_link_libraries(mixxx-lib PUBLIC Qt${QT_VERSION_MAJOR}::DBus)
+  if(QML)
+    target_link_libraries(mixxx-qml-lib PRIVATE Qt${QT_VERSION_MAJOR}::DBus)
+  endif()
 elseif(WIN32)
   if(Qt_IS_STATIC)
     target_link_libraries(
@@ -5395,6 +5412,9 @@ if(VINYLCONTROL)
       src/engine/controls/vinylcontrolcontrol.cpp
   )
   target_compile_definitions(mixxx-lib PUBLIC __VINYLCONTROL__)
+  if(QML)
+    target_compile_definitions(mixxx-qml-lib PUBLIC __VINYLCONTROL__)
+  endif()
 
   # Internal xwax library
   add_library(mixxx-xwax STATIC EXCLUDE_FROM_ALL)
@@ -5460,6 +5480,10 @@ target_precompile_headers(
 )
 if(BUILD_TESTING AND NOT CMAKE_DISABLE_PRECOMPILE_HEADERS)
   target_precompile_headers(mixxx-test REUSE_FROM mixxx-lib)
+endif()
+
+if(BUILD_TESTING AND QT6 AND QML)
+  qt_finalize_target(mixxx-test)
 endif()
 
 # Configure file with build options
