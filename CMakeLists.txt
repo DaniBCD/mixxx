@@ -5683,12 +5683,12 @@ if(WIN32)
   set(CPACK_WIX_INSTALL_SCOPE "perMachine")
   file(
     GENERATE OUTPUT
-    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch-$<CONFIG>.xml"
+    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch.xml"
     INPUT "${CMAKE_CURRENT_SOURCE_DIR}/packaging/wix/MixxxUpgradePatch.xml.in"
   )
   set(
     CPACK_WIX_PATCH_FILE
-    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch-$<CONFIG>.xml"
+    "${CMAKE_CURRENT_BINARY_DIR}/packaging/wix/MixxxUpgradePatch.xml"
   )
 
   # uses CMAKE_PROJECT_VERSION
