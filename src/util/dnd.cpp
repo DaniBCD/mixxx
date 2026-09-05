@@ -256,7 +256,8 @@ bool DragAndDropHelper::dragEnterAccept(
         bool stopOnFirstMatch,
         bool acceptPlaylists) {
     if (mimeData.hasUrls()) {
-        for (const auto& url : mimeData.urls()) {
+        const QList<QUrl> urls = mimeData.urls();
+        for (const auto& url : urls) {
             QString scheme = url.scheme().toLower();
             if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
                 return true;
@@ -325,7 +326,8 @@ void DragAndDropHelper::handleTrackDropEvent(
             return;
         } else {
             if (pEvent->mimeData()->hasUrls()) {
-                for (const auto& url : pEvent->mimeData()->urls()) {
+                const QList<QUrl> urls = pEvent->mimeData()->urls();
+                for (const auto& url : urls) {
                     QString scheme = url.scheme().toLower();
                     if (scheme == QStringLiteral("http") || scheme == QStringLiteral("https")) {
                         pEvent->accept();

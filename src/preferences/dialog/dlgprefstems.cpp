@@ -123,20 +123,20 @@ void DlgPrefStems::slotCheckStatus() {
     }
 
     text += tr("• Python: %1 (%2)<br>")
-            .arg(status.pythonAvailable ? QStringLiteral("Detectado") : QStringLiteral("No encontrado"))
-            .arg(status.pythonVersion.isEmpty() ? status.pythonPath : status.pythonVersion);
+            .arg(status.pythonAvailable ? QStringLiteral("Detectado") : QStringLiteral("No encontrado"),
+                    status.pythonVersion.isEmpty() ? status.pythonPath : status.pythonVersion);
 
     text += tr("• Demucs: %1 (%2)<br>")
-            .arg(status.demucsAvailable ? QStringLiteral("Instalado") : QStringLiteral("No instalado"))
-            .arg(status.demucsVersion.isEmpty() ? tr("Desconocido") : status.demucsVersion);
+            .arg(status.demucsAvailable ? QStringLiteral("Instalado") : QStringLiteral("No instalado"),
+                    status.demucsVersion.isEmpty() ? tr("Desconocido") : status.demucsVersion);
 
     text += tr("• FFmpeg: %1 (%2)<br>")
-            .arg(status.ffmpegAvailable ? QStringLiteral("Detectado") : QStringLiteral("No encontrado"))
-            .arg(status.ffmpegPath.isEmpty() ? tr("No disponible") : status.ffmpegPath);
+            .arg(status.ffmpegAvailable ? QStringLiteral("Detectado") : QStringLiteral("No encontrado"),
+                    status.ffmpegPath.isEmpty() ? tr("No disponible") : status.ffmpegPath);
 
     text += tr("• Aceleración GPU: %1 (%2)")
-            .arg(status.cudaAvailable ? QStringLiteral("GPU CUDA Activada 🚀") : QStringLiteral("CPU únicamente"))
-            .arg(status.torchVersion.isEmpty() ? tr("PyTorch no detectado") : tr("PyTorch %1").arg(status.torchVersion));
+            .arg(status.cudaAvailable ? QStringLiteral("GPU CUDA Activada 🚀") : QStringLiteral("CPU únicamente"),
+                    status.torchVersion.isEmpty() ? tr("PyTorch no detectado") : tr("PyTorch %1").arg(status.torchVersion));
 
     labelEnvStatus->setText(text);
 }
