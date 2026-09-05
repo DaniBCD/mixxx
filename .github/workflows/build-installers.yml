@@ -13,59 +13,190 @@ permissions:
 
 jobs:
   build-windows:
-    name: Windows x64 Installer
+    name: Windows x64 EXE Installer
     runs-on: windows-2022
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-
+  
       - name: Setup MSVC developer environment
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
-
-      - name: Setup Windows Build Environment
+  
+      - name: Setup Mixxx Windows dependencies
         shell: cmd
         run: |
           call tools\windows_buildenv.bat setup
-
+  
       - name: Configure CMake
         shell: pwsh
         run: |
-          cmake -B build -S . `
-            -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}" `
-            -DVCPKG_TARGET_TRIPLET=x64-windows `
+          cmake -S . -B build `
             -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build Mixxx Release
+  
+      - name: Build Mixxx
         shell: pwsh
         run: |
           cmake --build build --config Release --parallel
-
-      - name: Prepare Windows Portable Package
+  
+      # IMPORTANTE:
+      # comprobar primero dónde ha salido mixxx.exe
+      - name: Locate mixxx.exe
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Path "dist" -Force
-
-          # Copy resources and Qt plugins using robocopy
-          robocopy res build\Release /E /NFL /NDL /NJH /NJS /nc /ns /np
-          robocopy "${{ env.MIXXX_VCPKG_ROOT }}\installed\x64-windows\Qt6\plugins" build\Release /E /NFL /NDL /NJH /NJS /nc /ns /np
-          
-          # Reset robocopy success exit codes (0-7 are success)
-          $global:LASTEXITCODE = 0
-
-          # Compress to zip for easy portable distribution
-          Compress-Archive -Path "build\Release\*" -DestinationPath "dist\mixxx-windows-x64-portable.zip" -Force
-
-      - name: Upload Windows Artifacts
+          Write-Host "Buscando mixxx.exe..."
+  
+          $exe = Get-ChildItem `
+            -Path "${{ github.workspace }}" `
+            -Filter "mixxx.exe" `
+            -Recurse `
+            -ErrorAction SilentlyContinue |
+            Select-Object -First 1
+  
+          if (-not $exe) {
+            Write-Host "NO SE HA ENCONTRADO MIXXX.EXE"
+            Write-Host "Contenido del directorio build:"
+  
+            Get-ChildItem build -Recurse |
+              Select-Object FullName
+  
+            throw "La compilacion no genero mixxx.exe"
+          }
+  
+          Write-Host ""
+          Write-Host "MIXXX.EXE ENCONTRADO:"
+          Write-Host $exe.FullName
+  
+          "MIXXX_EXE=$($exe.FullName)" >> $env:GITHUB_ENV
+          "MIXXX_DIR=$($exe.Directory.FullName)" >> $env:GITHUB_ENV
+  
+      # Copiamos todo lo que acompaña al exe
+      - name: Prepare application directory
+        shell: pwsh
+        run: |
+          New-Item `
+            -ItemType Directory `
+            -Path "${{ github.workspace }}\package" `
+            -Force
+  
+          Write-Host "Copiando aplicación desde:"
+          Write-Host "${{ env.MIXXX_DIR }}"
+  
+          Copy-Item `
+            "${{ env.MIXXX_DIR }}\*" `
+            "${{ github.workspace }}\package" `
+            -Recurse `
+            -Force
+  
+          # Recursos
+          if (Test-Path "${{ github.workspace }}\res") {
+            Copy-Item `
+              "${{ github.workspace }}\res" `
+              "${{ github.workspace }}\package\res" `
+              -Recurse `
+              -Force
+          }
+  
+      - name: Verify package
+        shell: pwsh
+        run: |
+          Write-Host "Contenido de package:"
+          Get-ChildItem package -Recurse |
+            Select-Object FullName
+  
+          $exe = Get-ChildItem package `
+            -Filter "mixxx.exe" `
+            -Recurse |
+            Select-Object -First 1
+  
+          if (-not $exe) {
+            throw "mixxx.exe no existe dentro de package"
+          }
+  
+          Write-Host ""
+          Write-Host "OK - mixxx.exe preparado:"
+          Write-Host $exe.FullName
+  
+      # Instalar Inno Setup
+      - name: Install Inno Setup
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+  
+      # Crear el script del instalador
+      - name: Create Inno Setup configuration
+        shell: pwsh
+        run: |
+          @'
+          [Setup]
+          AppName=Mixxx
+          AppVersion=Custom
+          AppPublisher=Mixxx
+          DefaultDirName={autopf}\Mixxx
+          DefaultGroupName=Mixxx
+  
+          OutputDir=dist
+          OutputBaseFilename=Mixxx-Setup-Windows-x64
+  
+          Compression=lzma2
+          SolidCompression=yes
+  
+          ArchitecturesAllowed=x64compatible
+          ArchitecturesInstallIn64BitMode=x64compatible
+  
+          PrivilegesRequired=admin
+  
+          WizardStyle=modern
+  
+          [Files]
+          Source: "package\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+  
+          [Icons]
+          Name: "{group}\Mixxx"; Filename: "{app}\mixxx.exe"
+          Name: "{autodesktop}\Mixxx"; Filename: "{app}\mixxx.exe"
+  
+          [Run]
+          Filename: "{app}\mixxx.exe"; Description: "Abrir Mixxx"; Flags: nowait postinstall skipifsilent
+          '@ | Set-Content installer.iss
+  
+      - name: Build EXE installer
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path dist -Force
+  
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" `
+            installer.iss
+  
+      - name: Verify EXE installer
+        shell: pwsh
+        run: |
+          Write-Host ""
+          Write-Host "INSTALADORES GENERADOS:"
+          Get-ChildItem dist
+  
+          $installer = Get-ChildItem dist `
+            -Filter "*.exe" |
+            Select-Object -First 1
+  
+          if (-not $installer) {
+            throw "No se ha generado el instalador EXE"
+          }
+  
+          Write-Host ""
+          Write-Host "EXE GENERADO CORRECTAMENTE:"
+          Write-Host $installer.FullName
+  
+      - name: Upload Windows EXE
         uses: actions/upload-artifact@v4
         with:
-          name: mixxx-windows-x64
-          path: dist\mixxx-windows-x64-portable.zip
-
+          name: Mixxx-Windows-x64-EXE
+          path: dist/*.exe
+          if-no-files-found: error
   build-linux:
     name: Linux Ubuntu x64 Package
     runs-on: ubuntu-24.04
